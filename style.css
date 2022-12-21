@@ -79,9 +79,28 @@ body {
     padding: 20px 40px 0px 20px;
 }
 
-.card > div {
-    align-self: flex-end;
-    margin: 10px
+.read-status {
+    font-size: 0.8rem;
+    padding: 10px 0px;
+    display: flex;
+    align-items: center;
+}
+
+.read-status > div {
+    margin-right: 10px;
+}
+
+.read-status-button {
+    display: flex;
+    align-items: center;
+}
+
+.read-status-button > div {
+    margin-right: 10px;
+}
+
+.read-status-button > input {
+    margin-right: 3px;
 }
 
 .add-book {

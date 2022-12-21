@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>The Library</title>
+    <link rel="icon" type="image/jpg" href="images/favicon.ico">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@100&display=swap" rel="stylesheet">
     <script src="app.js" defer></script>
@@ -41,28 +42,37 @@
             </div>
         </div>
     </div>
-    <div class="cards-container">
+    <div data-card-container class="cards-container">
         <div class="card">
-            <p>Title</p>
+            <p>Harry Potter and the Prisoner of Azkaban</p>
             <p>By: J.K. Rowling</p>
             <p>Number of Pages: 1000</p>
             <p>Published: July 1 2002</p>
             <div>Mark as read:</div>
         </div>
         <div class="card">
-            <p>Title</p>
+            <p>Harry Potter and the Prisoner of Azkaban</p>
             <p>By: J.K. Rowling</p>
             <p>Number of Pages: 1000</p>
             <p>Published: July 1 2002</p>
             <div>Mark as read:</div>
         </div>
         <div class="card">
-            <p>Title</p>
+            <p>Harry Potter and the Prisoner of Azkaban</p>
             <p>By: J.K. Rowling</p>
             <p>Number of Pages: 1000</p>
             <p>Published: July 1 2002</p>
-            <div>Mark as read:</div>
-
+            <div class="read-status">
+                <div>Read Status:</div> 
+                <div class="read-status-button"">
+                    <input type="radio" name="radStatus">
+                    <div>Read</div>
+                    <input type="radio" name="radStatus">
+                    <div>In-Progress</div>
+                    <input type="radio" name="radStatus">
+                    <div>Not Read</div>
+                </div>
+            </div>
         </div>
     </div>
     <button data-open-button class="add-book">+</button>
@@ -71,18 +81,18 @@
             <div>Add a Book</div>
             <button data-close-button class="close-button">&times;</button>
         </div>
-        <form action="">
+        <form action="" id="addBook">
             <div class="add-book-input">
                 <label for="titleInput">Book Title*</label>
-                <input type="text" id="titleInput" placeholder="Title"></input>
+                <input type="text" id="titleInput" placeholder="Title" required></input>
             </div>
             <div class="add-book-input">
                 <label for="authorInput">Author*</label>
-                <input type="text" id="authorInput" placeholder="Author's Name"></input>
+                <input type="text" id="authorInput" placeholder="Author's Name" required></input>
             </div>
             <div class="add-book-input">
                 <label for="pagesInput">Number of Pages*</label>
-                <input type="number" id="pagesInput" placeholder="No. Pages"></input>
+                <input type="number" id="pagesInput" placeholder="No. Pages" required></input>
             </div>
             <div class="add-book-input">
                 <label for="dateInput">Publishing Date</label>
@@ -90,12 +100,15 @@
             </div>
             <div class="add-book-input">
                 <label for="readOrNot">Read Status*</label>
-                <select id="readOrNot">
+                <select id="readOrNot" required>
                     <option value="" disabled selected hidden>Have you read it?</option>
-                    <option value="yes">Yes</option>
-                    <option value="inProgress">In Progress</option>
-                    <option value="no">No</option>
+                    <option value="read">Yes</option>
+                    <option value="inProg">In Progress</option>
+                    <option value="notRead">No</option>
                 </select>
+            </div>
+            <div class="add-book-input">
+                <input data-submit type="submit" value="Add Book"></input>
             </div>
         </form>
     </div>

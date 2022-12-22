@@ -23,12 +23,8 @@
         <div class="sort">
             <label for="">Order By:</label>
             <select name="" id="orderDate">
-                <option value="pDate">Publishing Date</option>
                 <option value="iDate">Insertion Date</option>
-            </select>
-            <select name="" id="orderName">
-                <option value="nAsc">Ascending</option>
-                <option value="nDesc">Descending</option>
+                <option value="pDate">Publishing Date</option>
             </select>
         </div>
         <div class="legend">
@@ -57,7 +53,8 @@
             <p>Published: July 1 2002</p>
             <div>Mark as read:</div>
         </div>
-        <div class="card">
+        <div id="card-100" class="card">
+            <button data-card-target="#card-100" class="remove-card">x</button>
             <p>Harry Potter and the Prisoner of Azkaban</p>
             <p>By: J.K. Rowling</p>
             <p>Number of Pages: 1000</p>
@@ -75,11 +72,11 @@
             </div>
         </div>
     </div>
-    <button data-open-button class="add-book">+</button>
+    <button data-open-button-add class="add-book">+</button>
     <div class="add-book-popup" id="popup">
         <div class="add-book-popup-header">
             <div>Add a Book</div>
-            <button data-close-button class="close-button">&times;</button>
+            <button data-close-button-add class="close-button">&times;</button>
         </div>
         <form action="" id="addBook">
             <div class="add-book-input">
@@ -95,8 +92,8 @@
                 <input type="number" id="pagesInput" placeholder="No. Pages" required></input>
             </div>
             <div class="add-book-input">
-                <label for="dateInput">Publishing Date</label>
-                <input type="date" id="dateInput" placeholder="dd/mm/yyyy"></input>
+                <label for="dateInput">Publishing Date*</label>
+                <input type="date" id="dateInput" placeholder="dd/mm/yyyy" required></input>
             </div>
             <div class="add-book-input">
                 <label for="readOrNot">Read Status*</label>

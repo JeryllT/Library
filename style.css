@@ -76,12 +76,23 @@ body {
     align-items: flex-start;
     border: 1px solid black;
     border-radius: 20px;
-    padding: 20px 40px 0px 20px;
+    padding-left: 15px; 
+}
+
+.remove-card {
+    align-self: flex-end;
+    font-size: 1.5rem;
+    text-decoration: none;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    padding-right: 10px;
 }
 
 .read-status {
     font-size: 0.8rem;
     padding: 10px 0px;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
 }

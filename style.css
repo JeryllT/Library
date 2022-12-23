@@ -50,10 +50,21 @@ body {
     justify-content: space-between;
 }
 
+@media screen and (max-width: 600px) {
+    .legend {
+        flex-direction: column;
+    }
+    
+    .order-filter {
+        flex-direction: column;
+    }
+}
+
 .read-legend,
 .unread-legend, 
 .inProg-legend {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     margin: 0 0.2rem;
 }

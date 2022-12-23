@@ -6,7 +6,6 @@ const overlay = document.getElementById('overlay')
 const form = document.getElementById('addBook');
 const cardContainer = document.querySelector('[data-card-container]')
 const orderDate = document.getElementById("orderDate")
-let cardCounter = 0;
 
 openPopUpButton.addEventListener("click", () => {
     const popup = document.getElementById("popup")
@@ -19,23 +18,69 @@ closePopUpButton.addEventListener("click", () => {
     closePopUp(popup)
 })
 
+form.addEventListener("submit", e =>{
+    e.preventDefault()
+    const form = document.forms.addBook
+    console.log(form.elements)
+    const book = new Book(
+        form.elements[0].value,
+        form.elements[1].value,
+        form.elements[2].value,
+        form.elements[3].value,
+        form.elements[4].value, 
+        )
+    clearForm(form)
+    insertionDate.push(book)
+    addByPublishing(book)
+    if (orderDate.value === "iDate") orderBy("iDate")
+    else orderBy("pDate")
+    }
+)
+
+orderDate.addEventListener("change", e => orderBy(e.target.value))
+
+function openPopUp(popup) {
+    if (popup == null) return
+    popup.classList.add("active")
+    overlay.classList.add("active")
+}
+
+function closePopUp(popup) {
+    if (popup == null) return
+    popup.classList.remove("active")
+    overlay.classList.remove("active")
+}
+
+function Book(title, author, pages, publishDate, status) {
+
+    return {
+        "Title": title,
+        "Author": author,
+        "Total Pages": pages,
+        "Published Date": publishDate,
+        "Read Status": status
+    }
+}
+
 function addByPublishing(book) {
     const bookDate = new Date(book["Published Date"])
+    console.log(publishingDate.length)
 
-    if (publishingDate.length === 0 || bookDate >= publishingDate[publishingDate.length-1]) {
+    if (publishingDate.length === 0 || bookDate >= new Date(publishingDate[publishingDate.length-1]["Published Date"])) {
         publishingDate.push(book)
     } 
     else if (publishingDate.length === 1) {
         if (bookDate <= new Date(publishingDate[0]["Published Date"])) publishingDate.splice(0, 0, book)
     }
     else {
-        let i = 0;
-        while (i < publishingDate.length-1) {
-            if(bookDate >= new Date(publishingDate[i]["Published Date"]) 
-            && bookDate <= new Date(publishingDate[i+1]["Published Date"])) {
+        let i = 1;
+        while (i < publishingDate.length) {
+            if(bookDate >= new Date(publishingDate[i-1]["Published Date"]) 
+            && bookDate <= new Date(publishingDate[i]["Published Date"])) {
                 publishingDate.splice(i, 0, book)
                 break
             }
+            i++
         }
     }
 }
@@ -49,17 +94,6 @@ function removeInsertion(book, removeFrom) {
             removeFrom.splice(i, 1)
             return
         }
-    }
-}
-
-function Book(title, author, pages, publishDate, status) {
-
-    return {
-        "Title": title,
-        "Author": author,
-        "Total Pages": pages,
-        "Published Date": publishDate,
-        "Read Status": status
     }
 }
 
@@ -93,13 +127,14 @@ function addReadStatus(status) {
     return readConDiv
 }
 
-function removeCard(cardId, book) {
+function removeCard(book) {
     const closeButton = document.createElement("button")
     closeButton.classList.add("remove-card")
     closeButton.textContent = "x"
 
-    closeButton.addEventListener("click", () => {
-        const card = document.getElementById(`card-${cardId}`)
+    closeButton.addEventListener("click", (e) => {
+        const card = e.target.closest("[data-card-target]")
+        console.log(card)
         cardContainer.removeChild(card)
         removeInsertion(book, insertionDate)
         removeInsertion(book, publishingDate)
@@ -118,12 +153,10 @@ function clearForm(form) {
 function newCard(book) {
     const card = document.createElement("div")
     
-    card.id = "card-" + cardCounter
     card.classList.add("card")
-
-    const removeButton = removeCard(cardCounter, book)
+    card.dataset.cardTarget = ""
+    const removeButton = removeCard(book)
     
-    cardCounter++
     card.appendChild(removeButton)
 
     for (const info in book) {
@@ -139,49 +172,18 @@ function newCard(book) {
     return card
 }
 
-form.addEventListener("submit", e =>{
-    e.preventDefault()
-    const form = document.forms.addBook
-    console.log(form.elements)
-    const book = new Book(
-        form.elements[0].value,
-        form.elements[1].value,
-        form.elements[2].value,
-        form.elements[3].value,
-        form.elements[4].value, 
-        )
-    clearForm(form)
-    insertionDate.push(book)
-    addByPublishing(book)
-    const card = newCard(book)
-    cardContainer.appendChild(card)
-    }
-)
-
-orderDate.addEventListener("change", e => {
+function orderBy(orderDateVal) {
     let newCards = []
-    if (e.target.value === "iDate") {
+    if (orderDateVal === "iDate") {
         if (insertionDate.length === 0) return
         for(i in insertionDate) {
-            newCards.push(newCard(i))
+            newCards.push(newCard(insertionDate[i]))
         }
     } else {
         if (publishingDate.length === 0) return
         for(i in publishingDate) {
-            newCards.push(newCard(i))
+            newCards.push(newCard(publishingDate[i]))
         }
     }
-    cardContainer.replaceChildren(...newCards)
-})
-
-function openPopUp(popup) {
-    if (popup == null) return
-    popup.classList.add("active")
-    overlay.classList.add("active")
-}
-
-function closePopUp(popup) {
-    if (popup == null) return
-    popup.classList.remove("active")
-    overlay.classList.remove("active")
+    cardContainer.replaceChildren(...newCards)    
 }

@@ -1,11 +1,14 @@
 let publishingDate = [];
 let insertionDate = [];
+
 const openPopUpButton = document.querySelector('[data-open-button-add]')
 const closePopUpButton = document.querySelector('[data-close-button-add]')
 const overlay = document.getElementById('overlay')
 const form = document.getElementById('addBook');
 const cardContainer = document.querySelector('[data-card-container]')
 const orderDate = document.getElementById("orderDate")
+const filter = document.getElementById("filterBy")
+const readButtonOps = {"notRead":"Not Read", "inProg":"In-Progress", "read":"Read"}
 
 openPopUpButton.addEventListener("click", () => {
     const popup = document.getElementById("popup")
@@ -32,12 +35,12 @@ form.addEventListener("submit", e =>{
     clearForm(form)
     insertionDate.push(book)
     addByPublishing(book)
-    if (orderDate.value === "iDate") orderBy("iDate")
-    else orderBy("pDate")
+    orderFilter()
     }
 )
 
-orderDate.addEventListener("change", e => orderBy(e.target.value))
+orderDate.addEventListener("change", () => orderFilter())
+filter.addEventListener("change", () => orderFilter())
 
 function openPopUp(popup) {
     if (popup == null) return
@@ -86,26 +89,29 @@ function addByPublishing(book) {
 }
 
 function removeInsertion(book, removeFrom) {
-    const title = book.title
-    const author = book.author
+    const title = book["Title"]
+    const author = book["Author"]
+
+    console.log(title)
+    console.log(author)
     
     for(i = 0; i < removeFrom.length; i++) {
-        if (i.title === title && i.author === author) {
+        console.log(removeFrom[i])
+        if (removeFrom[i]["Title"] === title && removeFrom[i]["Author"] === author) {
             removeFrom.splice(i, 1)
             return
         }
     }
 }
 
-function addReadStatus(status) {
+function addReadStatus(book, card) {
     const readConDiv = document.createElement("div")
     const titleDiv = document.createElement("div")
-    const readButtonDiv = document.createElement("div")
-    const readButtonOps = {"read":"Read", "inProg":"In-Progress", "notRead":"Not Read"}
+    const readButtonForm = document.createElement("form")
     
     readConDiv.classList.add("read-status")
     titleDiv.textContent = "Read Status:"
-    readButtonDiv.classList.add("read-status-button")
+    readButtonForm.classList.add("read-status-button")
 
     for (ops in readButtonOps) {
         const buttonInput = document.createElement("input")
@@ -114,16 +120,30 @@ function addReadStatus(status) {
         buttonInput.type = "radio"
         buttonInput.name = "radStatus"
         buttonInput.value = ops
-        if (buttonInput.value === status) {
+        if (buttonInput.value === book["Read Status"]) {
             buttonInput.checked = true
         }
+
         divLabel.textContent = readButtonOps[ops]
-        readButtonDiv.appendChild(buttonInput)
-        readButtonDiv.appendChild(divLabel)
+        readButtonForm.appendChild(buttonInput)
+        readButtonForm.appendChild(divLabel)
     }
 
+    if (book["Read Status"] === "read") card.setAttribute("style", "background-color: black; color: white;")
+    else if (book["Read Status"] === "inProg") card.setAttribute("style", "background-color: grey; color: white;")
+    else card.setAttribute("style", "background-color: white; color: black;")
+
+    readButtonForm.addEventListener("change", e => {
+        if (e.target.value === "read") card.setAttribute("style", "background-color: black; color: white;")
+        else if (e.target.value === "inProg") card.setAttribute("style", "background-color: grey; color: white;")
+        else card.setAttribute("style", "background-color: white; color: black;")
+
+        if (e.target.value !== filter.value && filter.value !== "all") cardContainer.removeChild(card)
+        book["Read Status"] = e.target.value
+    })
+
     readConDiv.appendChild(titleDiv)
-    readConDiv.appendChild(readButtonDiv)
+    readConDiv.appendChild(readButtonForm)
     return readConDiv
 }
 
@@ -165,24 +185,24 @@ function newCard(book) {
             para.textContent = `${info}: ${book[info]}`
             card.appendChild(para)
         } else {
-            const status = addReadStatus(book[info])
+            const status = addReadStatus(book, card)
             card.appendChild(status)
         }
     }
     return card
 }
 
-function orderBy(orderDateVal) {
+function orderFilter() {
     let newCards = []
-    if (orderDateVal === "iDate") {
+    if (orderDate.value === "iDate") {
         if (insertionDate.length === 0) return
         for(i in insertionDate) {
-            newCards.push(newCard(insertionDate[i]))
+            if (insertionDate[i]["Read Status"] === filter.value || filter.value === "all") newCards.push(newCard(insertionDate[i]))
         }
     } else {
         if (publishingDate.length === 0) return
         for(i in publishingDate) {
-            newCards.push(newCard(publishingDate[i]))
+            if (publishingDate[i]["Read Status"] === filter.value || filter.value === "all") newCards.push(newCard(publishingDate[i]))
         }
     }
     cardContainer.replaceChildren(...newCards)    

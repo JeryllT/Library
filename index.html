@@ -16,61 +16,44 @@
             The Library
         </div>
         <div>
-            Read? Unread? Store it all here
+            Read? Not Read? Store it all here
         </div>
     </div>
     <div class="status-bar">
-        <div class="sort">
-            <label for="">Order By:</label>
-            <select name="" id="orderDate">
-                <option value="iDate">Insertion Date</option>
-                <option value="pDate">Publishing Date</option>
-            </select>
+        <div class="order-filter">
+            <div class="order">
+                <label for="orderDate">Order By:</label>
+                <select id="orderDate">
+                    <option value="iDate">Insertion Date</option>
+                    <option value="pDate">Publishing Date</option>
+                </select>
+            </div>
+            <div class="filter">
+                <label for="filterBy">Filter By:</label>
+                <select id="filterBy">
+                    <option value="all">All</option>
+                    <option value="read">Read</option>
+                    <option value="inProg">In Progress</option>
+                    <option value="notRead">Not Read</option>
+                </select>
+            </div>
         </div>
         <div class="legend">
             <div class="read-legend">
                 <div></div>
                 <div>Read</div>
             </div>
+            <div class="inProg-legend">
+                <div></div>
+                <div>In-Progress</div>
+            </div>
             <div class="unread-legend">
                 <div></div>
-                <div>Unread</div>
+                <div>Not Read</div>
             </div>
         </div>
     </div>
     <div data-card-container class="cards-container">
-        <div class="card">
-            <p>Harry Potter and the Prisoner of Azkaban</p>
-            <p>By: J.K. Rowling</p>
-            <p>Number of Pages: 1000</p>
-            <p>Published: July 1 2002</p>
-            <div>Mark as read:</div>
-        </div>
-        <div class="card">
-            <p>Harry Potter and the Prisoner of Azkaban</p>
-            <p>By: J.K. Rowling</p>
-            <p>Number of Pages: 1000</p>
-            <p>Published: July 1 2002</p>
-            <div>Mark as read:</div>
-        </div>
-        <div data-card-target class="card">
-            <button class="remove-card">x</button>
-            <p>Harry Potter and the Prisoner of Azkaban</p>
-            <p>By: J.K. Rowling</p>
-            <p>Number of Pages: 1000</p>
-            <p>Published: July 1 2002</p>
-            <div class="read-status">
-                <div>Read Status:</div> 
-                <div class="read-status-button"">
-                    <input type="radio" name="radStatus">
-                    <div>Read</div>
-                    <input type="radio" name="radStatus">
-                    <div>In-Progress</div>
-                    <input type="radio" name="radStatus">
-                    <div>Not Read</div>
-                </div>
-            </div>
-        </div>
     </div>
     <button data-open-button-add class="add-book">+</button>
     <div class="add-book-popup" id="popup">
